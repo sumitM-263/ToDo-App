@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Practice Questions</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <section class="app-section">
+        <h2 class="app-title">Local Storage Todo App</h2>
+        <div class="todo-app">
+            <div class="todo-header">
+                <h3>My Todo List</h3>
+            </div>
+            
+            <div class="todo-input-container">
+                
+                <input type="text" class="todo-input" id="todo-input" placeholder="What needs to be done?">
+                <button class="add-todo-btn" id="add-todo-btn">Add Todo</button>
+            </div>
+            
+            <div class="todo-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="active">Active</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
+            </div>
+            
+            <ul class="todo-list" id="todo-list">
+                
+            </ul>
+            
+            <div class="todo-stats">
+                <span><span id="todo-count">0</span> active items left</span>
+                <button class="clear-completed-btn" id="clear-completed-btn">Clear Completed</button>
+            </div>
+        </div>
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>
