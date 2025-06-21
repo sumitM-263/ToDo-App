@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function (){
 
     let tasks = JSON.parse(localStorage.getItem('tasks')) || []
 
-    let activeToDos = 0
+    
 
     tasks.forEach(task => renderTask(task))
 
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function (){
             li.querySelector(`#todo-checkbox-${task.id}`).setAttribute('checked', null)
             li.querySelector('.todo-text').classList.add('completed')
             li.querySelector('.todo-text').classList.remove('active')
-            activeToDos--
+            
         }
 
         const checkBox = li.querySelector('.todo-checkbox')
@@ -125,6 +125,7 @@ document.addEventListener('DOMContentLoaded', function (){
                 // console.log(task)
                 
                 saveTasks()
+                updateCount()
             })
         
 
@@ -132,22 +133,27 @@ document.addEventListener('DOMContentLoaded', function (){
             li.remove()
             tasks = tasks.filter(t => t.id !== task.id)
             saveTasks()
+            updateCount()
             
         } )
 
-        const taskText = document.getElementById(`${task.id}`)
-        taskText.addEventListener('click', function (){
-            taskText.innerHTML = `
-            <input type="text" class="todo-edit" id="todo-edit">
-            `
-            const input = document.getElementById('todo-edit')
-
+        li.querySelector('.edit-btn').addEventListener('click', function (){
+            editTask(task,li)
         })
+
+    
+        updateCount()
 
     }
 
     function updateCount(){
+        let activeToDos = 0
 
+        tasks.forEach(task => {
+            if(task.status === 'active') activeToDos++
+        })
+
+        toDoCount.textContent = activeToDos
     }
 
 
@@ -155,5 +161,88 @@ document.addEventListener('DOMContentLoaded', function (){
         localStorage.setItem('tasks', JSON.stringify(tasks))
     }
 
+    function editTask(task,listItem){
+        
+        const textSpan = listItem.querySelector('.todo-text')
+        const currentText = task.text
+
+        const editInput = document.createElement('input')
+        editInput.className = 'todo-edit-input'
+        editInput.type = 'text'
+        editInput.value = currentText
+        editInput.style.cssText =  `
+            
+            width: 9em;
+            padding: 2px;
+            border: 2px solid #007bff;
+            font-size: 16px;
+            background: white;
+        `
+
+        textSpan.replaceWith(editInput)
+        editInput.select()
+        editInput.focus()
+
+        
+        function saveEdit(){
+            const newText = editInput.value.trim()
+
+            if(newText === ''){
+                restoreText()
+                return
+            }
+
+            task.text = newText
+
+            const newTextSpan = document.createElement('span')
+            newTextSpan.className = 'todo-text'
+            newTextSpan.id = task.id
+            newTextSpan.textContent = newText
+
+            if(task.status === 'completed'){
+                newTextSpan.classList.add('completed')
+            }
+
+            editInput.replaceWith(newTextSpan)
+
+            saveTasks()
+        }
+
+        function cancelEdit(){
+            restoreText()
+        }
+
+        function restoreText(){
+            const restoredTextSpan = document.createElement('span')
+            restoredTextSpan.className = 'todo-text'
+            restoredTextSpan.id = task.id
+            restoredTextSpan.textContent = currentText
+
+            if(task.status === 'completed'){
+                restoredTextSpan.classList.add('completed')
+            }
+
+            editInput.replaceWith(restoredTextSpan)
+        }
+
+        editInput.addEventListener('keydown', function (e){
+            if(e.key === 'Enter'){
+                e.preventDefault()
+                saveEdit()
+            }
+
+            else if(e.key === 'Escape'){
+                e.preventDefault()
+                cancelEdit()
+            }
+        })
+
+
+        editInput.addEventListener('blur', function (){
+            setTimeout(saveEdit, 100)
+        })
+    }
+
+    
 
 })
