@@ -7,12 +7,12 @@ It allows users to manage tasks efficiently with features like filtering, editin
 
 ## 🚀 Features
 
-- ✅ Add new tasks
-- 📋 View tasks by **All**, **Active**, or **Completed**
-- ✏️ Edit existing tasks
-- 🗑️ Clear completed tasks
-- 📊 Dynamic count of active tasks
-- 🎯 Clean and minimal UI
+✅ Add new tasks
+📋 View tasks by **All**, **Active**, or **Completed**
+✏️ Edit existing tasks
+🗑️ Clear completed tasks
+📊 Dynamic count of active tasks
+🎯 Clean and minimal UI
 
 ---
 
